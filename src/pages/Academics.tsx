@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
 import { AnimatedText } from "@/components/AnimatedText";
-import { BookOpen } from "lucide-react";
+import { Award, BookOpen, BriefcaseBusiness, Building2, CalendarDays, HandHeart } from "lucide-react";
 import EducationCard from "@/components/EducationCard";
 import CertificationCard from "@/components/CertificationCard";
 
 const Academics = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>("Course");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -73,8 +73,8 @@ const Academics = () => {
       id: 4,
       name: "Cambodia Robotics Olympiad 2025",
       issuer: "STEM",
-      date: "2025",
-      description: "Volunteer as Logistic Team for Event - (CRO 2025).",
+      date: "",
+      description: "",
       category: "Volunteer"
     },
     {
@@ -84,14 +84,44 @@ const Academics = () => {
       date: "2025",
       description: "The Prompt Engineering Guide is a project by DAIR.AI. It aims to educate researchers and practitioners about prompt engineering, context engineering, RAG, and AI Agents.",
       category: "Course"
-    }
+    },
+    {
+      id: 6,
+      name: "EU- Manpower 2025",
+      issuer: "Team2",
+      date: "",
+      description: "",
+      category: "volunteer"
+    },
+    {
+      id: 7,
+      name: "CamSTEMFest 2026",
+      issuer: "STEM",
+      date: "",
+      description: "",
+      category: "volunteer"
+    },
+    {
+      id: 8,
+      name: "ICIA 2026",
+      issuer: "STEM",
+      date: "",
+      description: "",
+      category: "volunteer"
+    },
   ];
 
-  const categories = ["All", "Course", "Job", "Volunteer"];
+  const categories = ["Course", "Job", "Volunteer"];
 
-  const filteredCertifications = selectedCategory === "All" 
-    ? certifications 
-    : certifications.filter(cert => cert.category === selectedCategory);
+  const categoryIcons = {
+    Course: BookOpen,
+    Job: BriefcaseBusiness,
+    Volunteer: HandHeart,
+  };
+
+  const filteredCertifications = certifications.filter(
+    cert => cert.category.toLowerCase() === selectedCategory.toLowerCase()
+  );
 
   const courseHighlights = [
     "Data Structures and Algorithms",
@@ -168,35 +198,82 @@ const Academics = () => {
             <div className="flex justify-center mb-12">
               <div className="inline-flex flex-wrap gap-3 bg-[#071220]/80 border border-[#00d4ff]/35 p-2">
                 {categories.map((category) => (
-                  <motion.button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`px-6 py-2 text-sm font-medium uppercase tracking-[0.1em] [font-family:'Share_Tech_Mono',monospace] transition-all [clip-path:polygon(0_7px,7px_0,calc(100%_-_7px)_0,100%_7px,100%_calc(100%_-_7px),calc(100%_-_7px)_100%,7px_100%,0_calc(100%_-_7px))] ${
-                      selectedCategory === category
-                        ? "bg-[#00ff88]/16 text-[#00ff88] border border-[#00ff88]/55"
-                        : "text-muted-foreground border border-[#385070] hover:text-foreground hover:border-[#00d4ff]/50 hover:bg-[#0a1a2d]"
-                    }`}
-                  >
-                    {category}
-                  </motion.button>
+                  (() => {
+                    const Icon = categoryIcons[category as keyof typeof categoryIcons];
+                    return (
+                      <motion.button
+                        key={category}
+                        onClick={() => setSelectedCategory(category)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={`inline-flex items-center gap-2 px-6 py-2 text-sm font-medium uppercase tracking-[0.1em] [font-family:'Share_Tech_Mono',monospace] transition-all [clip-path:polygon(0_7px,7px_0,calc(100%_-_7px)_0,100%_7px,100%_calc(100%_-_7px),calc(100%_-_7px)_100%,7px_100%,0_calc(100%_-_7px))] ${
+                          selectedCategory === category
+                            ? "bg-[#00ff88]/16 text-[#00ff88] border border-[#00ff88]/55"
+                            : "text-muted-foreground border border-[#385070] hover:text-foreground hover:border-[#00d4ff]/50 hover:bg-[#0a1a2d]"
+                        }`}
+                      >
+                        <Icon className="h-4 w-4" />
+                        <span>{category}</span>
+                      </motion.button>
+                    );
+                  })()
                 ))}
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredCertifications.map((cert, index) => (
-                <CertificationCard 
-                  key={cert.id}
-                  name={cert.name}
-                  issuer={cert.issuer}
-                  date={cert.date}
-                  description={cert.description}
-                  index={index}
-                />
-              ))}
-            </div>
+            {selectedCategory === "Volunteer" ? (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="max-w-4xl mx-auto border border-[#00d4ff]/20 bg-[#041321]/50 backdrop-blur-sm"
+              >
+                <div className="flex flex-col">
+                  {filteredCertifications.map((cert) => (
+                    <div 
+                      key={cert.id} 
+                      className="flex items-start gap-4 p-6 md:p-8 border-b border-[#00d4ff]/10 last:border-b-0 hover:bg-[#00d4ff]/[0.02] transition-colors"
+                    >
+                      <div className="border border-[#00ff88]/30 bg-[#00ff88]/10 p-2 shrink-0">
+                        <Award className="h-5 w-5 text-[#00ff88]" />
+                      </div>
+                      
+                      <div className="flex-1">
+                        <h3 className="text-base md:text-lg font-bold text-foreground tracking-wide mb-2">
+                          {cert.name}
+                        </h3>
+                        
+                        <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm text-muted-foreground font-mono">
+                          <span className="inline-flex items-center gap-1.5 hover:text-[#00d4ff] transition-colors">
+                            <Building2 className="h-3.5 w-3.5" />
+                            {cert.issuer}
+                          </span>
+                        </div>
+                        
+                        {cert.description && (
+                          <p className="mt-4 text-sm text-foreground/70 leading-relaxed max-w-3xl">
+                            {cert.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredCertifications.map((cert, index) => (
+                  <CertificationCard 
+                    key={cert.id}
+                    name={cert.name}
+                    issuer={cert.issuer}
+                    date={cert.date}
+                    description={cert.description}
+                    index={index}
+                  />
+                ))}
+              </div>
+            )}
             
             {filteredCertifications.length === 0 && (
               <motion.div

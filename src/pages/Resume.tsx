@@ -134,6 +134,13 @@ const Resume = () => {
       skills: "Data Analysis",
       credential: ""
     },
+    {
+      name: "Prompt Engineering Guide",
+      issuer: "OpenAI",
+      date: "November 2025",
+      skills: "Prompt Engineering, AI Interaction",
+      credential: ""
+    }
   ];
 
   const softSkills = [
